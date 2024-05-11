@@ -183,7 +183,7 @@ async function predict() {
   let blob = dataURItoBlob(canvasData);
   let formData = new FormData();
   formData.append('image', blob);
-  let response = await fetch('http://localhost:5000/predict', {
+  let response = await fetch('https://digit-recog-flask.onrender.com/predict', {
     method: 'POST',
     body: formData
   });
