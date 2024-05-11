@@ -1,0 +1,81 @@
+/* make the canvas centered 
+ */
+@font-face {
+    font-family: 'Minecraft';
+    src: url('../resources/Minecraft.ttf') format('truetype');
+}
+
+body,
+span,
+button,
+input[type="range"],
+.predictionArea {
+    font-family: 'Minecraft', sans-serif;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.8));
+}
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsArea {
+    width: 300px;
+    margin-top: 35px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.predictionArea {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slidecontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+button {
+    background-color: #1890ff;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #40a9ff;
+}
+
+button:active {
+    background-color: #096dd9;
+}
