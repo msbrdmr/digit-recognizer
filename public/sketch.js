@@ -179,18 +179,52 @@ function getOuterPixels(totalIndex, boundary) {
   }
 }
 async function predict() {
+  // Convert canvas image data to a Blob
   let canvasData = canvas.elt.toDataURL('image/jpeg');
   let blob = dataURItoBlob(canvasData);
-  let formData = new FormData();
-  formData.append('image', blob);
-  let response = await fetch('https://digit-recog-flask.onrender.com/predict', {
-    method: 'POST',
-    body: formData
+
+  // Create a resized image with dimensions 28x28
+  let resizedImage = await new Promise((resolve) => {
+    let img = new Image();
+    img.onload = function () {
+      let canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      canvas.width = 28;
+      canvas.height = 28;
+      ctx.drawImage(img, 0, 0, 28, 28);
+      resolve(canvas.toDataURL('image/jpeg'));
+    }
+    img.src = URL.createObjectURL(blob);
   });
-  let data = await response.json();
-  console.log(data);
-  animatedPredictionText(data.prediction)
+
+  // Create FormData and append the resized image
+  let formData = new FormData();
+  formData.append('image', dataURItoBlob(resizedImage));
+
+  try {
+    // Send the image for prediction
+    let response = await fetch('https://digit-recog-flask.onrender.com/predict', {
+      method: 'POST',
+      body: formData
+    });
+
+    // Check if response is successful
+    if (!response.ok) {
+      throw new Error('Server response not OK');
+    }
+
+    // Parse the prediction response
+    let data = await response.json();
+    console.log(data);
+
+    // Display the prediction
+    animatedPredictionText(data.prediction);
+  } catch (error) {
+    console.error('Prediction request failed:', error);
+    // Handle error, e.g., display an error message to the user
+  }
 }
+
 function dataURItoBlob(dataURI) {
   let byteString;
   if (dataURI.split(',')[0].indexOf('base64') >= 0)
