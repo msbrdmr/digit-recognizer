@@ -7,7 +7,7 @@ let grid = false;
 let bg_color = 0;
 let draw_color = 255;
 let font_size = 1;
-let endpoint1 = 'http://localhost:8000/'
+let endpoint1 = 'http://127.0.0.1:8000/'
 let endpoint2 = 'https://tes-k97f.onrender.com/'
 
 function setup() {
