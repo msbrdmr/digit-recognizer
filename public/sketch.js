@@ -7,6 +7,8 @@ let grid = false;
 let bg_color = 0;
 let draw_color = 255;
 let font_size = 1;
+let endpoint1 = 'http://localhost:8000/'
+let endpoint2 = 'https://tes-k97f.onrender.com/'
 
 function setup() {
   canvas = createCanvas(canvas_size, canvas_size);
@@ -67,6 +69,11 @@ function draw() {
   })
 }
 function mouseDragged() {
+  sketch();
+} function mouseClicked() {
+  sketch();
+}
+function sketch() {
   let pos = { x: mouseX, y: mouseY };
   if (pos.x < 0 || pos.x > canvas_size || pos.y < 0 || pos.y > canvas_size) {
     return;
@@ -178,52 +185,6 @@ function getOuterPixels(totalIndex, boundary) {
       };
   }
 }
-// async function predict() {
-//   // Convert canvas image data to a Blob
-//   let canvasData = canvas.elt.toDataURL('image/jpeg');
-//   let blob = dataURItoBlob(canvasData);
-
-//   // Create a resized image with dimensions 28x28
-//   let resizedImage = await new Promise((resolve) => {
-//     let img = new Image();
-//     img.onload = function () {
-//       let canvas = document.createElement('canvas');
-//       let ctx = canvas.getContext('2d');
-//       canvas.width = 28;
-//       canvas.height = 28;
-//       ctx.drawImage(img, 0, 0, 28, 28);
-//       resolve(canvas.toDataURL('image/jpeg'));
-//     }
-//     img.src = URL.createObjectURL(blob);
-//   });
-
-//   // Create FormData and append the resized image
-//   let formData = new FormData();
-//   formData.append('image', dataURItoBlob(resizedImage));
-
-//   try {
-//     // Send the image for prediction
-//     let response = await fetch('http://127.0.0.1:8000/predict', {
-//       method: 'POST',
-//       body: formData
-//     });
-
-//     // Check if response is successful
-//     if (!response.ok) {
-//       throw new Error('Server response not OK');
-//     }
-
-//     // Parse the prediction response
-//     let data = await response.json();
-//     console.log(data);
-
-//     // Display the prediction
-//     animatedPredictionText(data.prediction);
-//   } catch (error) {
-//     console.error('Prediction request failed:', error);
-//     // Handle error, e.g., display an error message to the user
-//   }
-// }
 
 function predict() {
   // first resize the image to 28x28, then save as base64
@@ -240,7 +201,7 @@ function predict() {
     let data = { image: resizedImage };
     console.log(data)
 
-    fetch('https://fastapi-digitrecognizer.onrender.com/predict', {
+    fetch(endpoint1 + "predict", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

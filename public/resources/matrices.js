@@ -3,9 +3,9 @@ let matrices = {
         values: [0, 0]
     },
     "med": {
-        values: [10, 0]
+        values: [25, 0]
     },
     "large": {
-        values: [15, 10]
+        values: [35, 25]
     }
 }
