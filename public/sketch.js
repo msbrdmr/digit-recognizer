@@ -199,7 +199,7 @@ function predict() {
     let data = { image: resizedImage };
     console.log(data)
 
-    fetch("https://tes-k97f.onrender.com/predict", {
+    fetch("https://dr-backend-776x.onrender.com/predict", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
