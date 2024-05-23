@@ -6,6 +6,6 @@ let matrices = {
         values: [25, 0]
     },
     "large": {
-        values: [35, 25]
+        values: [45, 55]
     }
 }

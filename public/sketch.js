@@ -4,7 +4,7 @@ let gridSize = 30;
 let pixel_size = canvas_size / gridSize;
 let pixels = [];
 let grid = false;
-let bg_color = 0;
+let bg_color = [0, 0, 0];
 let draw_color = 255;
 let font_size = 1;
 
@@ -12,7 +12,7 @@ function setup() {
   canvas = createCanvas(canvas_size, canvas_size);
   for (let i = 0; i < gridSize; i += 1) {
     for (let j = 0; j < gridSize; j += 1) {
-      pixels.push(new Pixel(i * pixel_size, j * pixel_size, [bg_color, bg_color, bg_color]));
+      pixels.push(new Pixel(i * pixel_size, j * pixel_size, bg_color));
     }
   }
   let buttonsArea = createDiv();
@@ -85,7 +85,7 @@ function sketch() {
   adjustColor(outers)
 }
 function clearCanvas() {
-  pixels.forEach(p => p.color = [bg_color, bg_color, bg_color]);
+  pixels.forEach(p => p.color = bg_color);
 }
 function adjustColor(outers) {
   let factor = matrices[[font_size === 1 ? "small" : font_size === 2 ? "med" : "large"]]
@@ -198,8 +198,8 @@ function predict() {
     let resizedImage = canvas.toDataURL('image/jpeg');
     let data = { image: resizedImage };
     console.log(data)
-
-    fetch("https://dr-backend-776x.onrender.com/predict", {
+    url4 = "https://digit-recognizer-server.onrender.com/predict_chars";
+    fetch(url4, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -214,23 +214,9 @@ function predict() {
       .catch((error) => {
         console.error('Error:', error);
       });
-
   }
 }
 
-function dataURItoBlob(dataURI) {
-  let byteString;
-  if (dataURI.split(',')[0].indexOf('base64') >= 0)
-    byteString = atob(dataURI.split(',')[1]);
-  else
-    byteString = unescape(dataURI.split(',')[1]);
-  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-  let ia = new Uint8Array(byteString.length);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ia], { type: mimeString });
-}
 
 function animatedPredictionText(prediction) {
   let predictionText = select('.predictionArea h2');
