@@ -18,6 +18,8 @@ function setup() {
   let buttonsArea = createDiv();
   let predictionArea = createDiv();
   let sliderDiv = createDiv();
+
+
   buttonsArea.class('buttonsArea');
   predictionArea.class('predictionArea');
   sliderDiv.class('sliderDiv');
@@ -184,11 +186,24 @@ function getOuterPixels(totalIndex, boundary) {
   }
 }
 
+function showSnackBar(text) {
+  document.getElementById("snackbar").innerHTML = text;
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+}
+
 function predict() {
-  // first resize the image to 28x28, then save as base64
+  // Disable the button
+  const button = document.getElementById('predictButton');
+  button.disabled = true;
+  button.innerText = 'Loading...';
+
+  // Resize the image to 28x28, then save as base64
   let resizedImage = canvas.elt.toDataURL('image/jpeg');
   let img = new Image();
   img.src = resizedImage;
+
   img.onload = function () {
     let canvas = document.createElement('canvas');
     let ctx = canvas.getContext('2d');
@@ -197,8 +212,12 @@ function predict() {
     ctx.drawImage(img, 0, 0, 28, 28);
     let resizedImage = canvas.toDataURL('image/jpeg');
     let data = { image: resizedImage };
-    console.log(data)
+    console.log(data);
+
     url4 = "https://digit-recognizer-server.onrender.com/predict_chars";
+
+    showSnackBar("Predicting...");
+
     fetch(url4, {
       method: 'POST',
       headers: {
@@ -208,14 +227,20 @@ function predict() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Success:', data);
         animatedPredictionText(data.prediction);
+        showSnackBar("Prediction successful!");
+        button.disabled = false;
+        button.innerText = 'Predict';
       })
-      .catch((error) => {
-        console.error('Error:', error);
+      .catch(error => {
+        console.log('Error:', error);
+        showSnackBar("Error: " + error);
+        button.disabled = false;
+        button.innerText = 'Predict';
       });
   }
 }
+
 
 
 function animatedPredictionText(prediction) {
