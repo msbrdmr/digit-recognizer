@@ -14,4 +14,3 @@ This project combines a FastAPI backend with a p5.js frontend to create a digit 
 ### Frontend
 
 - **p5.js**
-- **Express.js**
